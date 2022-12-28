@@ -1,0 +1,28 @@
+{
+  "kind": "collectionType",
+  "collectionName": "klippkorten",
+  "info": {
+    "singularName": "klippkort",
+    "pluralName": "klippkorten",
+    "displayName": "klippkort",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "uttag": {
+      "type": "integer"
+    },
+    "startDate": {
+      "type": "date"
+    },
+    "stopDate": {
+      "type": "date"
+    },
+    "kNr": {
+      "type": "integer"
+    }
+  }
+}
