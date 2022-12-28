@@ -62,12 +62,6 @@
       "target": "plugin::users-permissions.role",
       "inversedBy": "users",
       "configurable": false
-    },
-    "medlemskap": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::medlemskap.medlemskap",
-      "inversedBy": "user"
     }
   }
 }
