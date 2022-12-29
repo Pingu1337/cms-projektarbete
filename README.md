@@ -56,6 +56,8 @@ Tydligare motivering kring tekniska beslut och genomförande
 
     Strapi-projekt
 
+> **[Step by step guide för hur man sätter upp strapi med blazor](https://strapi.io/blog/how-to-build-a-blog-app-using-blazor-wasm-and-strapi)**
+
 2 stycken Blazor WASM-sidor
 
 2 stycken olika API content-Endpoints via Strapi
