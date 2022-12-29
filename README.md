@@ -4,6 +4,7 @@
 
 ### 2. Strapi Projekt
 
+Båda projekten kommer innehållsmä
 
 Ni genomför samt lämnar in ett och samma projekt i grupp.
 
@@ -19,7 +20,7 @@ Förslagsvis en enkel blogg-sida, receptsamling, träningspass,sida eller enkel 
 
 
 
-    Umbraco:
+`Umbraco: Kommer att ha ett protfolio format. De två sidorna kommer att innehålla en sida där man ser innehållet från en kreatörs portfolio och den andra kommer vara en "kontakta mig" sida.`
 
 2 stycken sidor
 
@@ -52,8 +53,7 @@ Någon av funktionalitet som omfattar att skicka & ta emot data till & från dat
 
 Tydligare motivering kring tekniska beslut och genomförande
 
-
-    Strapi-projekt
+`Strapi-projekt: Projektet kommer att bygga en blogg, där postinläggen kommer genereras på startsidan, en "kontakta oss" sida. Den sista  sidan  kommer att ha en  kopplingen till det externa apiet i detta fallet weather forecasts api.`
 
 > **[Step by step guide för hur man sätter upp strapi med blazor](https://strapi.io/blog/how-to-build-a-blog-app-using-blazor-wasm-and-strapi)**
 
@@ -61,6 +61,7 @@ Tydligare motivering kring tekniska beslut och genomförande
 
 2 stycken olika API content-Endpoints via Strapi
 
+1 st postinlägg
 
 Minst 1 plugin
 
