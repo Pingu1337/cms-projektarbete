@@ -5,6 +5,8 @@ VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Umbraco", "Umbraco.csproj", "{64243658-EE3B-4A6C-BC6D-96009914C1EA}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "frontend", "..\..\Strapi\Frontend\frontend.csproj", "{4D611E3A-4780-4C6E-BAD8-724DAA8C8055}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{64243658-EE3B-4A6C-BC6D-96009914C1EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{64243658-EE3B-4A6C-BC6D-96009914C1EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{64243658-EE3B-4A6C-BC6D-96009914C1EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D611E3A-4780-4C6E-BAD8-724DAA8C8055}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D611E3A-4780-4C6E-BAD8-724DAA8C8055}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D611E3A-4780-4C6E-BAD8-724DAA8C8055}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D611E3A-4780-4C6E-BAD8-724DAA8C8055}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
