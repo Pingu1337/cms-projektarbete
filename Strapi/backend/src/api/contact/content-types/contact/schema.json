@@ -23,6 +23,12 @@
     },
     "postnummer": {
       "type": "string"
+    },
+    "titel": {
+      "type": "string"
+    },
+    "beskrivning": {
+      "type": "richtext"
     }
   }
 }

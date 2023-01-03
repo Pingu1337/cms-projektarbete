@@ -1,0 +1,54 @@
+﻿@page "/contact"
+@inject HttpClient Http
+@using Microsoft.Extensions.Configuration;
+@inject IConfiguration Configuration
+
+<PageTitle>Counter</PageTitle>
+
+
+@if (pageContent != null)
+{
+
+    <h1>@pageContent.adress</h1>
+    
+    
+}
+else
+{
+    <p>Loading...</p>
+}
+
+@code {
+
+
+    private Data pageContent = null;
+public string strapi_api_url;
+
+protected override async Task OnInitializedAsync()
+{
+
+
+    strapi_api_url = Configuration["AppSettings:STRAPI_API_URL"];
+    var url = "{STRAPI_API_URL}/api/contact";
+        pageContent = await Http.GetFromJsonAsync<Data>(url.Replace("{STRAPI_API_URL}", strapi_api_url));
+
+
+}
+
+   
+    public class Data
+    {
+        public int id { get; set; }
+        public DateTime createdAt { get; set; }
+        public DateTime updatedAt { get; set; }
+        public string epost { get; set; }
+        public string telefon { get; set; }
+        public string adress { get; set; }
+        public string postnummer { get; set; }
+        public string titel { get; set; }
+        public string beskrivning { get; set; }
+    }
+
+    
+
+}
