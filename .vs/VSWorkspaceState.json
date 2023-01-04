@@ -1,6 +1,12 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\Strapi",
+    "\\Strapi\\frontend",
+    "\\Strapi\\frontend\\Pages",
+    "\\Umbraco",
+    "\\Umbraco\\Umbraco"
   ],
+  "SelectedNode": "\\Strapi\\frontend\\Pages\\Test.razor",
   "PreviewInSolutionExplorer": false
 }

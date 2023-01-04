@@ -1,0 +1,34 @@
+{
+  "kind": "singleType",
+  "collectionName": "contacts",
+  "info": {
+    "singularName": "contact",
+    "pluralName": "contacts",
+    "displayName": "contact",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "epost": {
+      "type": "email"
+    },
+    "telefon": {
+      "type": "string"
+    },
+    "adress": {
+      "type": "string"
+    },
+    "postnummer": {
+      "type": "string"
+    },
+    "titel": {
+      "type": "string"
+    },
+    "beskrivning": {
+      "type": "richtext"
+    }
+  }
+}
