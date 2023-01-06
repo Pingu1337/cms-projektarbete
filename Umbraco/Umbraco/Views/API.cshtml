@@ -1,6 +1,14 @@
 ﻿@using Umbraco.Cms.Web.Common.PublishedModels;
 @inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContentModels.API>
 @using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+@using System.Net.Http;
 @{
 	Layout = "master.cshtml";
+
+	string request = "http://api.weatherapi.com/v1/current.json?key=" + Model.ApiKey + "&q=halmstad";
+
+	var client = new HttpClient();
+	var resp = client.GetAsync(request);
 }
+
+@resp.Result.Content;

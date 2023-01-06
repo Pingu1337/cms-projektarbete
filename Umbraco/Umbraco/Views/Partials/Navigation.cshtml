@@ -24,14 +24,12 @@
 				<ul class="navbar-nav">
                 @if (selection?.Length > 0)
                 {
-                    <ul>
                         @foreach (var item in selection)
                         {
                             <li class="@(item.IsAncestorOrSelf(Model) ? "current" : null) nav-item">
                                 <a href="@item.Url(PublishedUrlProvider)" class="nav-link">@item.Name</a>
                             </li>
                         }
-                    </ul>
                 }
 				</ul>
 			</nav>
