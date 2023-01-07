@@ -1,9 +1,13 @@
-﻿namespace frontend.Services
+﻿using frontend.Models;
+using System.Text.Json;
+
+namespace frontend.Services
 {
     public interface IAuthService
     {
         Task<bool> IsSignedIn();
         Task<string> GetUsernameAsync();
+        Task<User> GetUserAsync();
         Task<string> GetJwt();
     }
     public class AuthService : IAuthService
@@ -49,6 +53,19 @@
             else
             {
                 return Token;
+            }
+        }
+        public async Task<User> GetUserAsync()
+        {
+            var user = await _localStorageService.GetCookie<string>("UserData");
+            if (user == null)
+            {
+                return default;
+            }
+            else
+            {
+                User userData = JsonSerializer.Deserialize<User>(user) ?? throw new Exception("invalid user data");
+                return userData;
             }
         }
     } 

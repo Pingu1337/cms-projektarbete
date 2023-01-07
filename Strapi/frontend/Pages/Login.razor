@@ -131,6 +131,7 @@
                 if(loginResponse.user.username != null)
                 {
                     await localStorageService.SetCookie<string>("Username", loginResponse.user.username, 15);
+                    await localStorageService.SetCookie<string>("UserData", JsonSerializer.Serialize(loginResponse.user), 15);
                 }
             }
             await localStorageService.SetItem<string>("JWT", loginResponse.jwt);

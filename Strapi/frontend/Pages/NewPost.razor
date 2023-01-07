@@ -6,6 +6,7 @@
 @using System.Text.Json;
 @using System.Text.Json.Serialization;
 @using Services
+@using Models
 @inject IAuthService authService
 @inject HttpClient Http
 @inject IConfiguration Configuration
@@ -141,7 +142,7 @@ else
         strapi_api_url = Configuration["AppSettings:STRAPI_API_URL"];
         var url = "{STRAPI_API_URL}/api/posts";
 
-        postModel.author = await authService.GetUsernameAsync();
+        postModel.author = await authService.GetUserAsync();
 
         var Token = await authService.GetJwt();
         Http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
@@ -161,7 +162,7 @@ else
         }
         else
         {
-            
+            Err = true;
         }
 
     }
@@ -173,12 +174,13 @@ else
     public class PostModel
     {
         public int? id { get; set; }
+
         public string title { get; set; }
 
         public string content { get; set; }
 
         public string? image { get; set; }
 
-        public string author { get; set; }
+        public User author { get; set; }
     }
 }
