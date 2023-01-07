@@ -1,14 +1,76 @@
-﻿
+﻿@using Services
+@inject IAuthService authService
+@inject ILocalStorageService localStorageService
+@implements IDisposable
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
+
 <div>
-    <NavLink href="/signup" class="inline-block text-sm px-4 py-2 leading-none border rounded text-black border-black hover:border-transparent hover:text-teal-500 hover:bg-white lg:mt-0">
-        Sign Up
-    </NavLink>
-    <NavLink href="/login" class="inline-block text-sm px-4 py-2 leading-none border rounded text-black border-black hover:border-transparent hover:text-teal-500 hover:bg-white lg:mt-0">
-        Login
-    </NavLink>
+    @if (isSignedIn)
+    {
+        <NavLink href="/new-post" class="inline-block text-sm px-4 py-2 leading-none border rounded text-black border-black hover:border-indigo-500 hover:text-teal-500 hover:bg-gray lg:mt-0">
+            New Post
+        </NavLink>
+        <button @onclick="Logout" class="inline-block text-sm px-4 py-2 leading-none border rounded text-black border-black hover:border-indigo-500 hover:text-teal-500 hover:bg-gray lg:mt-0">
+            Logout
+        </button>
+    }
+    else
+    {
+        <NavLink href="/signup" class="inline-block text-sm px-4 py-2 leading-none border rounded text-black border-black hover:border-indigo-500 hover:text-teal-500 hover:bg-gray lg:mt-0">
+            Sign Up
+        </NavLink>
+        <NavLink href="/login" class="inline-block text-sm px-4 py-2 leading-none border rounded text-black border-black hover:border-indigo-500 hover:text-teal-500 hover:bg-gray lg:mt-0">
+            Login
+        </NavLink>
+
+
+    }
 </div>
 
 
 @code {
+    private bool isSignedIn;
 
+    protected override async Task OnInitializedAsync()
+    {
+        isSignedIn = await authService.IsSignedIn();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!isSignedIn)
+        {
+            isSignedIn = await authService.IsSignedIn();
+            if (isSignedIn)
+            {
+                StateHasChanged();
+            }
+        }
+    }
+
+    private async Task Logout()
+    {
+        await localStorageService.DeleteCookie<string>("JWT");
+        isSignedIn = await authService.IsSignedIn();
+        NavigationManager.NavigateTo("/");
+    }
+
+    protected override void OnInitialized()
+    {
+        NavigationManager.LocationChanged += LocationChanged;
+        base.OnInitialized();
+    }
+
+    void LocationChanged(object sender, LocationChangedEventArgs e)
+    {
+        // When location changes re render the component to check if Authentication state has changed
+        StateHasChanged();
+    }
+
+    void IDisposable.Dispose()
+    {
+        // Unsubscribe from the event when our component is disposed
+        NavigationManager.LocationChanged -= LocationChanged;
+    }
 }

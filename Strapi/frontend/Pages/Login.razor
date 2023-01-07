@@ -8,6 +8,9 @@
 @using System.ComponentModel.DataAnnotations;
 @using Services
 @inject ILocalStorageService localStorageService
+@inject NavigationManager NavigationManager
+@inject IAuthService authService
+
 @using System.Text.Json;
 @using System.Text.Json.Serialization;
 
@@ -80,6 +83,24 @@
 
 
 @code {
+
+    protected override async Task OnInitializedAsync()
+    {
+        var isSignedIn = await authService.IsSignedIn();
+        if (isSignedIn)
+        {
+            NavigationManager.NavigateTo("/");
+        }
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        var isSignedIn = await authService.IsSignedIn();
+        if (isSignedIn)
+        {
+            NavigationManager.NavigateTo("/");
+        }
+    }
+
     private LoginModel loginModel = new();
 
     private LoginResponse loginResponse;
@@ -98,27 +119,28 @@
 
         var userData = await response.Content.ReadAsStringAsync();
 
-
         loginResponse = JsonSerializer.Deserialize<LoginResponse>(userData) ?? throw new Exception("Login Response is null");
-
-        Console.WriteLine("userData: " + userData);
-        if(loginResponse.user != null)
-        {
-            Console.WriteLine("User Username: " + loginResponse.user.username);
-        }
-        Console.WriteLine("User JWT: " + loginResponse.jwt);
-
 
         if (response.IsSuccessStatusCode && loginResponse.jwt != null)
         {
             LoginSuccess = true;
 
+            await localStorageService.SetCookie<string>("JWT", loginResponse.jwt, 15);
+            if(loginResponse.user != null)
+            {
+                if(loginResponse.user.username != null)
+                {
+                    await localStorageService.SetCookie<string>("Username", loginResponse.user.username, 15);
+                }
+            }
             await localStorageService.SetItem<string>("JWT", loginResponse.jwt);
+            StateHasChanged();
         }
         else
         {
             passwordCheck = false;
         }
+        
     }
 
     public string strapi_api_url;
