@@ -17,7 +17,11 @@ else
         <section class="text-gray-700 body-font">
             <div class="container mx-auto flex px-5 pb-24 items-center justify-center flex-col">
                 <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">@postDetails.Data.Title</h1>
+
+            @if (postDetails.Data.Image != null)
+            {
                 <img class=" mb-10 object-cover object-center rounded" alt="hero" src="@postDetails.Data.Image.Url" style="height:400px;width:900px">
+            }
                 <div class=" w-full text-center">
                     <div class="mb-8 leading-relaxed">@((MarkupString)postDetails.Data.Content)</div>
                 </div>
@@ -43,10 +47,12 @@ else
         url = url.Replace("{STRAPI_API_URL}", strapi_api_url);
         url = url.Replace("{Id}", Id);
         postDetails = await Http.GetFromJsonAsync<PostSingle>(url);
-
-        if (postDetails.Data != null)
+        if(postDetails != null)
         {
-            postDetails.Data.Image.Url = strapi_api_url + postDetails.Data.Image.Url;
+            if (postDetails.Data.Image != null)
+            {
+                postDetails.Data.Image.Url = strapi_api_url + postDetails.Data.Image.Url;
+            }
         }
     }
 
@@ -65,12 +71,12 @@ else
         public string Title { get; set; }
         public string Content { get; set; }
         public string Author { get; set; }
-        public Image Image { get; set; }
+        public Image? Image { get; set; }
     }
 
     public class Image
     {
-        public string Url { get; set; }
+        public string? Url { get; set; }
     }
 
 }

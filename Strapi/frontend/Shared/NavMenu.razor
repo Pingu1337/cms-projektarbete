@@ -1,12 +1,30 @@
 ﻿@* ./Shared/NavMenu.razor *@
 
 <header class="text-gray-600 body-font">
-    <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
-        <NavLink href="/">
-            <div class="flex order-first lg:order-none lg:w-1/5 title-font font-medium items-center text-gray-900 lg:items-center lg:justify-center mb-4 md:mb-0">
-                <img src="/blazor_strapi_logo.png" alt="logo" width="150" />
-                <span class="ml-3 text-3xl">StrapiBlazorBlog</span>
-            </div>
-        </NavLink>
+    <div class="container mx-2 flex flex-wrap p-5 flex-col md:flex-row items-center max-w-full">
+
+        <ul class="flex items-center w-full">
+            <li class="mr-6">
+                <NavLink href="/">
+                    <div class="flex order-first lg:order-none lg:w-1/5 title-font font-medium  text-gray-900">
+                        <img src="/blazor_strapi_logo.png" alt="logo" width="100" />
+                        <span class="ml-3 text-3xl">StrapiBlazorBlog</span>
+                    </div>
+                </NavLink>
+            </li>
+
+            <li class="mr-6">
+                <NavLink class="text-blue-500 hover:text-blue-800" href="/">Home</NavLink>
+            </li>
+            <li class="mr-6">
+                <a class="text-blue-500 hover:text-blue-800" href="#">Link</a>
+            </li>
+            <li class="mr-6">
+                <a class="text-blue-500 hover:text-blue-800" href="#">Link</a>
+            </li>
+            <li class="mr-6 float-right ml-auto">
+                <LoginPartial/>
+            </li>
+        </ul>
     </div>
 </header>

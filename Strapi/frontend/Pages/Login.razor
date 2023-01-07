@@ -1,0 +1,167 @@
+﻿@page "/login"
+
+@inject HttpClient Http
+@using Microsoft.Extensions.Configuration;
+@inject IConfiguration Configuration
+
+@using Microsoft.AspNetCore.Components.Forms;
+@using System.ComponentModel.DataAnnotations;
+@using Services
+@inject ILocalStorageService localStorageService
+@using System.Text.Json;
+@using System.Text.Json.Serialization;
+
+@using Microsoft.Extensions.Logging
+@inject ILogger<Signup> Logger
+
+<PageTitle>Login</PageTitle>
+
+<main class="flex-column m-auto justify-center">
+
+    @if (!LoginSuccess)
+    {
+        <h1 class="mx-auto text-center mb-4 text-2xl">Login</h1>
+
+        <EditForm Model="@loginModel" OnValidSubmit="@HandleValidSubmit" class="w-full max-w-sm mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            <div class="w-full max-w-xs">
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="email">
+                            Email
+                        </label>
+                    <InputText id="email" @bind-Value="loginModel.Identifier" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="email" placeholder="your@email.com" />
+                    </div>
+                    <div class="mb-6">
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
+                            Password
+                        </label>
+                    @if (!passwordCheck)
+                    {
+                        <InputText id="password" @bind-Value="loginModel.Password" class="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" type="password" placeholder="******************" />
+                        <p class="text-red-500 text-xs italic">Please choose a password.</p>
+                    }
+                    else
+                    {
+                        <InputText id="password" @bind-Value="loginModel.Password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" type="password" placeholder="******************" />
+                    }
+
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+                            Sign In
+                        </button>
+                        <a class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" href="#">
+                            Forgot Password?
+                        </a>
+                    </div>
+                <p class="text-center text-gray-500 text-xs">
+                    &copy;2020 Acme Corp. All rights reserved.
+                </p>
+            </div>
+
+        </EditForm>
+    }
+    else
+    {
+        if(loginResponse.user != null)
+        {
+            <h1 class="mx-auto text-center mb-4 text-2xl">Hello @loginResponse.user.username</h1>
+        }
+        else
+        {
+            <h1 class="mx-auto text-center text-red mb-4 text-2xl">oops some funky error occured, oh well :D</h1>
+        }
+
+    }
+
+</main>
+
+
+@code {
+    private LoginModel loginModel = new();
+
+    private LoginResponse loginResponse;
+
+    private bool LoginSuccess = false;
+
+    private bool passwordCheck = true;
+
+    private async Task HandleValidSubmit()
+    {
+        strapi_api_url = Configuration["AppSettings:STRAPI_API_URL"];
+        var url = "{STRAPI_API_URL}/api/auth/local";
+
+
+        var response = await Http.PostAsJsonAsync<LoginModel>(url.Replace("{STRAPI_API_URL}", strapi_api_url), loginModel);
+
+        var userData = await response.Content.ReadAsStringAsync();
+
+
+        loginResponse = JsonSerializer.Deserialize<LoginResponse>(userData) ?? throw new Exception("Login Response is null");
+
+        Console.WriteLine("userData: " + userData);
+        if(loginResponse.user != null)
+        {
+            Console.WriteLine("User Username: " + loginResponse.user.username);
+        }
+        Console.WriteLine("User JWT: " + loginResponse.jwt);
+
+
+        if (response.IsSuccessStatusCode && loginResponse.jwt != null)
+        {
+            LoginSuccess = true;
+
+            await localStorageService.SetItem<string>("JWT", loginResponse.jwt);
+        }
+        else
+        {
+            passwordCheck = false;
+        }
+    }
+
+    public string strapi_api_url;
+
+
+    public class LoginModel
+    {
+
+        [Required]
+        [EmailAddress(ErrorMessage = "Email adress is invalid")]
+        public string? Identifier { get; set; }
+
+        [Required]
+        public string? Password { get; set; }
+
+    }
+
+    public class User
+    {
+        public int id { get; set; }
+
+        public string? username { get; set; }
+
+        public string? email { get; set; }
+
+        public string? provider { get; set; }
+
+        public bool? confirmed { get; set; }
+
+        public bool? blocked { get; set; }
+
+        public DateTime? createdAt { get; set; }
+
+        public DateTime? updatedAt { get; set; }
+
+        public string? role { get; set; }
+    }
+
+    public class LoginResponse
+    {
+        public string? jwt { get; set; }
+
+        public User? user { get; set; }
+    }
+
+}
