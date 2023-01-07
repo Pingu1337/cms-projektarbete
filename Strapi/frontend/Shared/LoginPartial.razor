@@ -5,9 +5,15 @@
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JSRuntime
 
-<div>
+<div class="flex space-x-1.5">
     @if (isSignedIn)
     {
+        @if (Elevated)
+        {
+        <NavLink href="/admin-panel" class="inline-block text-sm px-4 py-2 leading-none border rounded text-green-700 border-green-700 hover:border-indigo-500 hover:text-teal-500 hover:bg-gray lg:mt-0">
+            Admin Panel
+        </NavLink>
+        }
         <NavLink href="/new-post" class="inline-block text-sm px-4 py-2 leading-none border rounded text-black border-black hover:border-indigo-500 hover:text-teal-500 hover:bg-gray lg:mt-0">
             New Post
         </NavLink>
@@ -32,18 +38,35 @@
 @code {
     private bool isSignedIn;
 
+    private bool Elevated = false;
+
     protected override async Task OnInitializedAsync()
     {
         isSignedIn = await authService.IsSignedIn();
+
+        await CheckPermissions();
+    }
+
+    async Task CheckPermissions()
+    {
+        var Token = await authService.GetJwt();
+        if(Token.Length > 0)
+        {
+            var role = await authService.GetRole(Token);
+            Elevated = await authService.IsElevated(role);
+        }
+
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+
         if (!isSignedIn)
         {
             isSignedIn = await authService.IsSignedIn();
             if (isSignedIn)
             {
+                await CheckPermissions();
                 StateHasChanged();
             }
         }

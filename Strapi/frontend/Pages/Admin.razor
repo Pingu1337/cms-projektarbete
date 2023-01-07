@@ -1,0 +1,45 @@
+﻿@page "/admin-panel"
+
+@using Services
+@inject IAuthService authService
+
+<div class="text-center">
+
+    @if(Elevated == null){
+    <h3>Loading...</h3>
+    }
+
+    @if (Elevated == false)
+    {
+        <p class="text-2xl text-red-500">Unauthorized</p>
+    }
+    else
+    {
+        <p class="text-2xl text-green-500">Authorized</p>
+        <h3>You have admin privileges.</h3>
+    }
+
+</div>
+
+
+
+
+@code {
+    private bool? Elevated = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await CheckPermissions();
+    }
+
+    async Task CheckPermissions()
+    {
+        var Token = await authService.GetJwt();
+        if (Token.Length > 0)
+        {
+            var role = await authService.GetRole(Token);
+            Elevated = await authService.IsElevated(role);
+        }
+
+    }
+}

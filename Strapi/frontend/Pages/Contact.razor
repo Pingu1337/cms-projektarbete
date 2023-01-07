@@ -21,7 +21,7 @@ else
 @code {
 
 
-    private Data pageContent = null;
+private Data pageContent = null;
 public string strapi_api_url;
 
 protected override async Task OnInitializedAsync()
@@ -30,7 +30,11 @@ protected override async Task OnInitializedAsync()
 
     strapi_api_url = Configuration["AppSettings:STRAPI_API_URL"];
     var url = "{STRAPI_API_URL}/api/contact";
-        pageContent = await Http.GetFromJsonAsync<Data>(url.Replace("{STRAPI_API_URL}", strapi_api_url));
+
+    // request gives 403 (Forbidden) 
+    // TODO: fix
+    pageContent = await Http.GetFromJsonAsync<Data>(url.Replace("{STRAPI_API_URL}", strapi_api_url));
+    
 
 
 }
