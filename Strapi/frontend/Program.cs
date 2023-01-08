@@ -23,6 +23,7 @@ namespace frontend
             builder.Services.AddScoped<ILocalStorageService, LocalStorageService>();
             builder.Services.AddScoped<IAuthService, AuthService>();
 
+
             await builder.Build().RunAsync();
         }
 
